@@ -40,12 +40,10 @@ services_namespace=$(echo "$namespace" | perl -pe 's#\\\\#\\\\\\\\#g')
 services_namespace_input=$(echo "$namespace_input" | perl -pe 's#\\\\#\\\\\\\\#g')
 find . -type f \( ! -name "personalize.sh" -and ! -name "README.md" \) -exec grep -l "$services_namespace" {} \; |xargs perl -pi -e "s#$services_namespace#$services_namespace_input#g;"
 
-# Compose module id based on <yourVendorPrefix> and <yourModuleRootDirectory> directories
-module_root_directory=${PWD##*/}
-vendor_directory_path=$(echo "$PWD" | perl -pe "s#$module_root_directory##g")
-vendor_prefix="${vendor_directory_path%"${vendor_directory_path##*[!/]}"}"
-vendor_prefix="${vendor_prefix##*/}"
-composed_module_id="${vendor_prefix}_${module_root_directory}"
+# Compose module id by replacing slashes and dashes from the package name
+# Replace '/' with '_' and then '-' with an empty string
+composed_module_id="${package_name_input//\//_}"
+composed_module_id="${composed_module_id//-}"
 echo -e "\nYour module id is: '$composed_module_id'!"
 
 # Replace module id everywhere except in this file
