@@ -216,27 +216,22 @@ The token itself is provided by SonarCloud.
 
 ### Development installation
 
-Installation example for improving and develop the current module is provided here:
+We recommend developing the module as independent as possible. This means that the module for development should
+be installed as a root package, with its own strict dependencies if such are needed.
 
-1. Clone the module
-    ```
-    cd <shopRoot>
-    git clone https://github.com/OXID-eSales/module-template source/modules/oe/moduletemplate --branch=b-7.0.x
-    ```
+Consider using our docker based SDK and our ["Recipes"](https://github.com/OXID-eSales/docker-eshop-sdk-recipes) to 
+install this module development variant. Make sure you have all your current docker containers stopped before starting on this.
 
-2. Install the module from local path
-    ```
-    cd <shopRoot>
-    composer config repositories.oxid-esales/module-template path source/modules/oe/moduletemplate
-    composer require oxid-esales/module-template:*
-    bin/oe-console oe:module:install vendor/oxid-esales/module-template
-    ```
+```bash
+cd ~/Projects
+echo ModuleTemplate && git clone https://github.com/OXID-eSales/docker-eshop-sdk.git $_ && cd $_
+git clone --recurse-submodules https://github.com/OXID-eSales/docker-eshop-sdk-recipes recipes/oxid-esales
 
-3. Activate the module
-    ```
-    cd <shopRoot>
-    bin/oe-console oe:module:activate oe_moduletemplate
-    ```
+// Important: In case you want to develop your module created from module template, edit the recipe with your 
+// module repository and module id first
+
+./recipes/oxid-esales/module-template/b-7.2.x-root.sh -eCE
+```
 
 ## Things to be aware of
 
