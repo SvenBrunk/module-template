@@ -40,11 +40,8 @@ services_namespace=$(echo "$namespace" | perl -pe 's#\\\\#\\\\\\\\#g')
 services_namespace_input=$(echo "$namespace_input" | perl -pe 's#\\\\#\\\\\\\\#g')
 find . -type f \( ! -name "personalize.sh" -and ! -name "README.md" \) -exec grep -l "$services_namespace" {} \; |xargs perl -pi -e "s#$services_namespace#$services_namespace_input#g;"
 
-# Compose module id by replacing slashes and dashes from the package name
-# Replace '/' with '_' and then '-' with an empty string
-composed_module_id="${package_name_input//\//_}"
-composed_module_id="${composed_module_id//-}"
-echo -e "\nYour module id is: '$composed_module_id'!"
+echo -e "\nPlease enter module id (original: $module_id):"
+read -r composed_module_id
 
 # Replace module id everywhere except in this file
 find . -type f \( ! -name "personalize.sh" -and ! -name "README.md" \) -exec grep -l "$module_id" {} \; |xargs perl -pi -e "s#$module_id#$composed_module_id#g;"
