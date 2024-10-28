@@ -22,7 +22,7 @@ rm -rf ./views
 
 #cleanup services.yaml
 perl -0777pi\
-  -e 's#(^.*?autowire: true)(.*?)$#\1#gs'\
+  -e 's#(.*?)(services:.*?autowire: true)(.*?)$#\2#gs'\
   services.yaml
 
 #clean out module source code
@@ -32,21 +32,24 @@ touch ./src/.gitkeep
 #clean out tests
 mv ./tests/Codeception/Acceptance/ExampleCest.php ./tests/Codeception/Acceptance/ExampleCest.bak
 mv ./tests/Codeception/Acceptance/_bootstrap.php ./tests/Codeception/Acceptance/_bootstrap.bak
+rm -rf ./tests/Codeception/Acceptance/**/
 rm -rf ./tests/Codeception/Acceptance/*.php
 mv ./tests/Codeception/Acceptance/ExampleCest.bak ./tests/Codeception/Acceptance/ExampleCest.php
 mv ./tests/Codeception/Acceptance/_bootstrap.bak ./tests/Codeception/Acceptance/_bootstrap.php
 
 mv ./tests/Integration/ExampleTest.php ./tests/ExampleTest.bak
-rm -rf ./tests/Integration/*
+rm -rf ./tests/Integration/**/
+rm -rf ./tests/Integration/*.php
 mv ./tests/ExampleTest.bak ./tests/Integration/ExampleTest.php
 
 mv ./tests/Unit/ExampleTest.php ./tests/ExampleTest.bak
-rm -rf ./tests/Unit/*
+rm -rf ./tests/Unit/**/
+rm -rf ./tests/Unit/*.php
 mv ./tests/ExampleTest.bak ./tests/Unit/ExampleTest.php
 
 perl -pi\
   -e 's#paths:.*#paths: "Application/views/flow/translations,Application/views/admin"#g;'\
-  ./tests/Codeception/acceptance.suite.yml
+  ./tests/Codeception/Acceptance.suite.yml
 
 echo
 echo 'Cleanup done. Now it is your turn to fill the module with code.'
