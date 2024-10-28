@@ -214,6 +214,11 @@ credentials and names. For running SonarCloud as part of the steps in GitHub wor
 will need to configure SonarCloud and to create a secret environment variable for your repository called SONAR_TOKEN.
 The token itself is provided by SonarCloud.
 
+#### 3. Install the module for Development
+
+For installing the module for development our recommended way, check the "Development installation section", 
+or do it any other way you prefer, but make sure to reconfigure our preconfigured quality tools to fit your installation.
+
 ### Development installation
 
 We recommend developing the module as independent as possible. This means that the module for development should
