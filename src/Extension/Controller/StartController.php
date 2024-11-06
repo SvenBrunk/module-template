@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OxidEsales\ModuleTemplate\Extension\Controller;
 
 use OxidEsales\Eshop\Application\Model\User as EshopModelUser;
-use OxidEsales\Eshop\Core\Registry as EshopRegistry;
 use OxidEsales\ModuleTemplate\Greeting\Service\GreetingMessageServiceInterface;
 use OxidEsales\ModuleTemplate\Settings\Service\ModuleSettingsServiceInterface;
 

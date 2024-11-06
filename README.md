@@ -18,14 +18,15 @@ This module also comes with all the quality tools OXID recommends to use.
 
 ## Table of contents
 1. [Branch compatibility](#branch-compatibility)
-1. [Installation](#installation)
+2. [Installation](#installation)
    1. [Install and try it out](#install-and-try-it-out)
-   1. [Use as a base for own module](#use-as-a-base-for-own-module)
-   1. [Development installation](#development-installation)
-1. [Idea](#idea)
-1. [Things to be aware of](#things-to-be-aware-of) 
-1. [Running tests and quality tools](#running-tests-and-quality-tools) 
-1. [Additional info](#additional-info) 
+   2. [Use as a base for own module](#use-as-a-base-for-own-module)
+   3[Development installation](#development-installation)
+3. [Idea](#idea)
+4. [Things to be aware of](#things-to-be-aware-of) 
+5. [Running tests and quality tools](#running-tests-and-quality-tools) 
+6. [Examples](#examples) 
+7. [Additional info](#additional-info) 
 
 ## Branch compatibility
 
@@ -400,7 +401,25 @@ few test cases to the module and plan to improve the shop tests as soon as possi
 And then there are some few shop tests marked as `@group quarantine` in the doc block. Test in that group have stability issues so they'd better
 be excluded as well.
 
-Ps: a failing shop test might also turn up issues in your module, in that case fix the module and let the test live ;) 
+Ps: a failing shop test might also turn up issues in your module, in that case fix the module and let the test live ;)
+
+## Examples
+
+This module contains examples how to integrate with the eShop.
+
+* Templates
+  * For admin: [user_main.html.twig](views/twig/extensions/themes/admin_twig/user_main.html.twig)
+  * For frontend: [shop/start.html.twig](views/twig/extensions/themes/default/page/shop/start.html.twig)
+    and [page/details/inc/productmain.html.twig](views/twig/extensions/themes/default/page/details/inc/productmain.html.twig)
+* Extensions:
+  * Controller: [StartController](src/Extension/Controller/StartController.php)
+  * Models: [Basket](src/Extension/Model/Basket.php) and [User](src/Extension/Model/User.php)
+* Standalone controllers: [admin GreetingAdminController](src/Greeting/Controller/Admin/GreetingAdminController.php)
+  and [frontend GreetingController](src/Greeting/Controller/GreetingController.php)
+* Database access: [GreetingRepository](src/Greeting/Repository)
+* [Migrations](migration)
+* [Console command](src/Logging)
+* [Module settings](src/Settings)
 
 ## Additional info
 
