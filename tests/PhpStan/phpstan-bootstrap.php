@@ -21,3 +21,13 @@ class_alias(
     \OxidEsales\Eshop\Application\Model\Basket::class,
     \OxidEsales\ModuleTemplate\Extension\Model\Basket_parent::class
 );
+
+class_alias(
+    \OxidEsales\Eshop\Application\Controller\ArticleDetailsController::class,
+    \OxidEsales\ModuleTemplate\ProductVote\Controller\ArticleDetailsController_parent::class
+);
+
+class_alias(
+    \OxidEsales\Eshop\Application\Component\Widget\ArticleDetails::class,
+    \OxidEsales\ModuleTemplate\ProductVote\Widget\ArticleDetails_parent::class
+);

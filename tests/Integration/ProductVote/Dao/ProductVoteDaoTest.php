@@ -104,8 +104,7 @@ final class ProductVoteDaoTest extends IntegrationTestCase
     public function resetNonExistingVote(): void
     {
         $sut = $this->get(ProductVoteDaoInterface::class);
-        $vote = new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, true);
-        $sut->resetProductVote($vote);
+        $sut->resetProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
 
         $result = $this->getVoteQueryResult();
         $this->assertEquals(0, $result->rowCount());
@@ -117,8 +116,7 @@ final class ProductVoteDaoTest extends IntegrationTestCase
         $this->executeInsertVoteQuery(true);
 
         $sut = $this->get(ProductVoteDaoInterface::class);
-        $vote = new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, true);
-        $sut->resetProductVote($vote);
+        $sut->resetProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
 
         $result = $this->getVoteQueryResult();
         $this->assertEquals(0, $result->rowCount());

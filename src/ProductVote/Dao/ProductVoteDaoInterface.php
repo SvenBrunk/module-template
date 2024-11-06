@@ -16,5 +16,5 @@ interface ProductVoteDaoInterface
     public function getProductVote(string $productId, string $userId): ?ProductVote;
 
     public function setProductVote(ProductVote $vote): void;
-    public function resetProductVote(ProductVote $vote): void;
+    public function resetProductVote(string $productId, string $userId): void;
 }

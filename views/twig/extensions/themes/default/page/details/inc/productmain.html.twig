@@ -1,0 +1,17 @@
+{% extends 'page/details/inc/productmain.html.twig' %}
+
+{% block details_productmain_productlinksselector %}
+    {{ parent() }}
+    {% if oViewConf.getUser() %}
+        {% set baseLink = oViewConf.getSelfLink() ~ 'cl=' ~ oViewConf.getTopActiveClassName() ~ '&anid=' ~ oDetailsProduct.oxarticles__oxnid.value %}
+        <a href="{{ seo_url({ ident: baseLink ~ '&fnc=' ~ (productVote.vote ? 'resetvote' : 'voteup') }) }}" style="text-decoration: none">
+            {{ productVote.vote ? '👍' : '🖒' }} ({{ productVoteResult.voteUp }})
+        </a>
+        <a href="{{ seo_url({ ident: baseLink ~ '&fnc=' ~ (productVote and (not productVote.vote) ? 'resetvote' : 'votedown') }) }}" style="text-decoration: none">
+            {{ productVote and (not productVote.vote) ? '👎' : '🖓' }} ({{ productVoteResult.voteDown }})
+        </a>
+    {% else %}
+        🖒 ({{ productVoteResult.voteUp }})
+        🖓 ({{ productVoteResult.voteDown }})
+    {% endif %}
+{% endblock %}

@@ -55,7 +55,7 @@ readonly class ProductVoteDao implements ProductVoteDaoInterface
 
     public function setProductVote(ProductVote $vote): void
     {
-        $this->resetProductVote($vote);
+        $this->resetProductVote($vote->productId, $vote->userId);
 
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder
@@ -75,7 +75,7 @@ readonly class ProductVoteDao implements ProductVoteDaoInterface
             ->execute();
     }
 
-    public function resetProductVote(ProductVote $vote): void
+    public function resetProductVote(string $productId, string $userId): void
     {
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder
@@ -83,8 +83,8 @@ readonly class ProductVoteDao implements ProductVoteDaoInterface
             ->where('oxartid = :productId')
             ->andWhere('oxuserid = :userId')
             ->setParameters([
-                'productId' => $vote->productId,
-                'userId'    => $vote->userId,
+                'productId' => $productId,
+                'userId'    => $userId,
             ])
             ->execute();
     }
