@@ -4,24 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [v3.2.0] - Unreleased
-
-### Changed
-- Controller name `oemtgreeting` to `oemt_greeting` making it consistent with the other one (`oemt_admin_greeting`)
-
-### Removed
-- PHP 8.1 support removed
-
-## [v3.1.0] - unreleased
+## [v3.1.0] - Unreleased
 
 ### Added
 - Admin controller example in Greeting namespace
 - Template for special greeting admin controller
 - Example with extending of current admin template
 - ``oxNew`` model object factory example in Greeting namespace infrastructure
+- Support for PHP 8.3.
+- Compatibility with MariaDB11
 
 ### Fixed
 - "the input device is not a TTY" error message during github hook if problems found
+
+### Changed
+- Controller name `oemtgreeting` to `oemt_greeting` making it consistent with the other one (`oemt_admin_greeting`)
+- Updated to work with OXID eShop 7.2.x.
+
+### Removed
+- PHP 8.1 support removed
 
 ## [v3.0.0] - 2024-06-27
 
