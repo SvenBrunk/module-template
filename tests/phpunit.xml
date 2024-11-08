@@ -16,6 +16,7 @@
          backupStaticProperties="false"
          requireCoverageMetadata="false"
          beStrictAboutCoverageMetadata="false"
+         displayDetailsOnPhpunitDeprecations="true"
          displayDetailsOnTestsThatTriggerDeprecations="true"
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
