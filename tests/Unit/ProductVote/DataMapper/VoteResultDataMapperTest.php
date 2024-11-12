@@ -10,25 +10,25 @@ declare(strict_types=1);
 namespace OxidEsales\ModuleTemplate\Tests\Unit\ProductVote\DataMapper;
 
 use Generator;
-use OxidEsales\ModuleTemplate\ProductVote\DataMapper\ResultDataMapper;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\Result;
+use OxidEsales\ModuleTemplate\ProductVote\DataMapper\VoteResultDataMapper;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResult;
 use OxidEsales\ModuleTemplate\ProductVote\Exception\MapDataTypeException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ResultDataMapper::class)]
-final class ResultDataMapperTest extends TestCase
+#[CoversClass(VoteResultDataMapper::class)]
+final class VoteResultDataMapperTest extends TestCase
 {
     #[Test]
     #[DataProvider('mapMalformedDataProvider')]
-    public function mapMalformedData(array $data): void
+    public function mapMalformedDataThrowsException(array $data): void
     {
-        $sut = new ResultDataMapper();
+        $sut = new VoteResultDataMapper();
 
         $this->expectException(MapDataTypeException::class);
-        $sut->map($data);
+        $sut->mapFromDbRow($data);
     }
 
     public static function mapMalformedDataProvider(): Generator
@@ -45,16 +45,16 @@ final class ResultDataMapperTest extends TestCase
 
     #[Test]
     #[DataProvider('mapDataProvider')]
-    public function mapData(Result $expectedResult, array $data): void
+    public function mapCorrectData(VoteResult $expectedResult, array $data): void
     {
-        $sut = new ResultDataMapper();
-        $this->assertEquals($expectedResult, $sut->map($data));
+        $sut = new VoteResultDataMapper();
+        $this->assertEquals($expectedResult, $sut->mapFromDbRow($data));
     }
 
     public static function mapDataProvider(): Generator
     {
         yield [
-            'expectedResult' => new Result(
+            'expectedResult' => new VoteResult(
                 'test_product_id',
                 2,
                 3,
@@ -67,7 +67,7 @@ final class ResultDataMapperTest extends TestCase
         ];
 
         yield [
-            'expectedResult' => new Result(
+            'expectedResult' => new VoteResult(
                 'another_product_id',
                 100,
                 0,

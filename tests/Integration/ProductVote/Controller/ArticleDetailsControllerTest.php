@@ -12,32 +12,27 @@ namespace OxidEsales\ModuleTemplate\Tests\Integration\ProductVote\Controller;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\User;
 use OxidEsales\ModuleTemplate\ProductVote\Controller\ArticleDetailsController;
-use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDaoInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
+use OxidEsales\ModuleTemplate\ProductVote\Service\VoteServiceInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ArticleDetailsController::class)]
 final class ArticleDetailsControllerTest extends TestCase
 {
-    private const TEST_PRODUCT_ID = 'test_product_id';
-    private const TEST_USER_ID = 'test_user_id';
-
     #[Test]
-    public function voteNotLoggedIn(): void
+    public function ensureNotLoggedInDoesNotCallServiceMethods(): void
     {
-        $daoSpy = $this->createMock(ProductVoteDaoInterface::class);
-        $daoSpy
-            ->expects($this->never())
-            ->method('setProductVote');
-        $daoSpy
-            ->expects($this->never())
-            ->method('resetProductVote');
+        $voteServiceSpy = $this->createMock(VoteServiceInterface::class);
+        $voteServiceSpy->expects($this->never())->method('setProductVote');
+        $voteServiceSpy->expects($this->never())->method('resetProductVote');
 
-        $sut = $this->getSutMock($daoSpy, null, $this->getProductStub());
+        $productStub = $this->createStub(Article::class);
+
+        $sut = $this->getSutMock(
+            voteServiceSpy: $voteServiceSpy,
+            product: $productStub
+        );
 
         $sut->voteUp();
         $sut->voteDown();
@@ -45,87 +40,70 @@ final class ArticleDetailsControllerTest extends TestCase
     }
 
     #[Test]
-    public function voteUp(): void
-    {
-        $daoSpy = $this->getDaoSpy(
-            'setProductVote',
-            new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, true)
-        );
-        $sut = $this->getSutMock($daoSpy, $this->getUserStub(), $this->getProductStub());
-
-        $sut->voteUp();
-    }
-
-    #[Test]
-    public function voteDown(): void
-    {
-        $daoSpy = $this->getDaoSpy(
-            'setProductVote',
-            new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, false)
-        );
-        $sut = $this->getSutMock($daoSpy, $this->getUserStub(), $this->getProductStub());
-
-        $sut->voteDown();
-    }
-
-    #[Test]
-    public function resetVote(): void
-    {
-        $daoSpy = $this->getDaoSpy('resetProductVote', self::TEST_PRODUCT_ID, self::TEST_USER_ID);
-        $sut = $this->getSutMock($daoSpy, $this->getUserStub(), $this->getProductStub());
-
-        $sut->resetVote();
-    }
-
-    private function getDaoSpy(string $method, mixed ...$arguments): ProductVoteDaoInterface|MockObject
-    {
-        $daoSpy = $this->createMock(ProductVoteDaoInterface::class);
-        $daoSpy
-            ->expects($this->once())
-            ->method($method)
-            ->with(...$arguments);
-
-        return $daoSpy;
-    }
-
-    private function getProductStub(): Article|Stub
+    public function voteUpForLoggedInUserCallsServiceMethod(): void
     {
         $productStub = $this->createStub(Article::class);
-        $productStub
-            ->method('getId')
-            ->willReturn(self::TEST_PRODUCT_ID);
+        $userStub = $this->createStub(User::class);
 
-        return $productStub;
+        $voteServiceSpy = $this->createMock(VoteServiceInterface::class);
+        $voteServiceSpy->expects($this->once())->method('setProductVote')->with($productStub, $userStub, true);
+
+        $sut = $this->getSutMock(
+            voteServiceSpy: $voteServiceSpy,
+            user: $userStub,
+            product: $productStub,
+        );
+
+        $sut->voteUp();
     }
 
-    private function getUserStub(): User|Stub
+    #[Test]
+    public function voteDownForLoggedInUserCallsServiceMethod(): void
     {
+        $productStub = $this->createStub(Article::class);
         $userStub = $this->createStub(User::class);
-        $userStub
-            ->method('getId')
-            ->willReturn(self::TEST_USER_ID);
 
-        return $userStub;
+        $voteServiceSpy = $this->createMock(VoteServiceInterface::class);
+        $voteServiceSpy->expects($this->once())->method('setProductVote')->with($productStub, $userStub, false);
+
+        $sut = $this->getSutMock(
+            voteServiceSpy: $voteServiceSpy,
+            user: $userStub,
+            product: $productStub,
+        );
+
+        $sut->voteDown();
+    }
+
+    #[Test]
+    public function resetVoteTriggersServiceWithExpectedProductAndUser(): void
+    {
+        $productStub = $this->createStub(Article::class);
+        $userStub = $this->createStub(User::class);
+
+        $voteServiceSpy = $this->createMock(VoteServiceInterface::class);
+        $voteServiceSpy->expects($this->once())->method('resetProductVote')->with($productStub, $userStub);
+
+        $sut = $this->getSutMock(
+            voteServiceSpy: $voteServiceSpy,
+            user: $userStub,
+            product: $productStub
+        );
+
+        $sut->resetVote();
     }
 
     private function getSutMock(
-        ProductVoteDaoInterface|MockObject $daoSpy,
-        Stub|User|null $userStub,
-        Article|Stub $productStub,
-    ): ArticleDetailsController|MockObject {
-        $sut = $this
-            ->getMockBuilder(ArticleDetailsController::class)
-            ->onlyMethods(['getService', 'getProduct', 'getUser'])
-            ->getMock();
-        $sut
-            ->method('getService')
-            ->with(ProductVoteDaoInterface::class)->willReturn($daoSpy);
-        $sut
-            ->method('getUser')
-            ->willReturn($userStub);
-        $sut
-            ->method('getProduct')
-            ->willReturn($productStub);
+        VoteServiceInterface $voteServiceSpy,
+        User $user = null,
+        Article $product = null,
+    ): ArticleDetailsController {
+        $sut = $this->getMockBuilder(ArticleDetailsController::class)
+            ->onlyMethods(['getService', 'getProduct', 'getUser'])->getMock();
+
+        $sut->method('getService')->with(VoteServiceInterface::class)->willReturn($voteServiceSpy);
+        $sut->method('getUser')->willReturn($user);
+        $sut->method('getProduct')->willReturn($product);
 
         return $sut;
     }

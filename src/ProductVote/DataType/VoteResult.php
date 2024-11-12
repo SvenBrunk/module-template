@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\DataType;
 
-readonly class ProductVote implements ProductVoteInterface
+readonly class VoteResult implements VoteResultInterface
 {
     public function __construct(
-        public string $productId,
-        public string $userId,
-        public bool $vote,
+        private string $productId,
+        private int $voteUp,
+        private int $voteDown,
     ) {
     }
 
@@ -23,13 +23,13 @@ readonly class ProductVote implements ProductVoteInterface
         return $this->productId;
     }
 
-    public function getUserId(): string
+    public function getVoteUp(): int
     {
-        return $this->userId;
+        return $this->voteUp;
     }
 
-    public function isVoteUp(): bool
+    public function getVoteDown(): int
     {
-        return $this->vote;
+        return $this->voteDown;
     }
 }

@@ -11,8 +11,7 @@ namespace OxidEsales\ModuleTemplate\ProductVote\Widget;
 
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\User;
-use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDaoInterface;
-use OxidEsales\ModuleTemplate\ProductVote\Dao\ResultDaoInterface;
+use OxidEsales\ModuleTemplate\ProductVote\Service\VoteServiceInterface;
 
 /**
  * @extendable-class
@@ -26,33 +25,23 @@ class ArticleDetails extends ArticleDetails_parent
 {
     public function render()
     {
-        $this->prepareVoteData();
+        $this->oemtPrepareVoteData();
         return parent::render();
     }
 
-    public function prepareVoteData(): void
+    public function oemtPrepareVoteData(): void
     {
         /** @var Article $product */
         $product = $this->getProduct();
         /** @var User $user */
         $user = $this->getUser();
 
+        $voteService = $this->getService(VoteServiceInterface::class);
+
         if ($user instanceof User) {
-            $productVoteDao = $this->getProductVoteDao();
-            $this->_aViewData['productVote'] = $productVoteDao->getProductVote($product->getId(), $user->getId());
+            $this->_aViewData['productVote'] = $voteService->getProductVote($product, $user);
         }
 
-        $resultDao = $this->getProductVoteResultDao();
-        $this->_aViewData['productVoteResult'] = $resultDao->getProductVoteResult($product->getId());
-    }
-
-    private function getProductVoteDao(): ProductVoteDaoInterface
-    {
-        return $this->getService(ProductVoteDaoInterface::class);
-    }
-
-    private function getProductVoteResultDao(): ResultDaoInterface
-    {
-        return $this->getService(ResultDaoInterface::class);
+        $this->_aViewData['productVoteResult'] = $voteService->getProductVoteResult($product);
     }
 }

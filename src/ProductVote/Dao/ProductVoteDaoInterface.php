@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
 
 interface ProductVoteDaoInterface
 {
-    public function getProductVote(string $productId, string $userId): ?ProductVote;
+    public function getProductVote(string $productId, string $userId): ?ProductVoteInterface;
 
-    public function setProductVote(ProductVote $vote): void;
+    public function setProductVote(ProductVoteInterface $vote): void;
     public function resetProductVote(string $productId, string $userId): void;
 }

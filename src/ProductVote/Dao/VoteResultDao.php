@@ -9,20 +9,21 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 
+use Doctrine\DBAL\Result;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataMapper\ResultDataMapperInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\Result;
-use RuntimeException;
+use OxidEsales\ModuleTemplate\ProductVote\DataMapper\VoteResultDataMapperInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResult;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
 
-readonly class ResultDao implements ResultDaoInterface
+readonly class VoteResultDao implements VoteResultDaoInterface
 {
     public function __construct(
         private QueryBuilderFactoryInterface $queryBuilderFactory,
-        private ResultDataMapperInterface $dataMapper,
+        private VoteResultDataMapperInterface $dataMapper,
     ) {
     }
 
-    public function getProductVoteResult(string $productId): Result
+    public function getProductVoteResult(string $productId): VoteResultInterface
     {
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder
@@ -38,16 +39,13 @@ readonly class ResultDao implements ResultDaoInterface
                 'productId' => $productId,
             ]);
 
+        /** @var Result $queryResult */
         $queryResult = $queryBuilder->execute();
-        if (!($queryResult instanceof \Doctrine\DBAL\Result)) {
-            throw new RuntimeException('Query returned error.');
-        }
-
         $row = $queryResult->fetchAssociative();
 
         if (!$row) {
-            return new Result($productId, 0, 0);
+            return new VoteResult($productId, 0, 0);
         }
-        return $this->dataMapper->map($row);
+        return $this->dataMapper->mapFromDbRow($row);
     }
 }

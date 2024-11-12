@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\DataMapper;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\Result;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
 
-interface ResultDataMapperInterface
+interface VoteResultDataMapperInterface
 {
-    public function map(array $data): Result;
+    public function mapFromDbRow(array $data): VoteResultInterface;
 }

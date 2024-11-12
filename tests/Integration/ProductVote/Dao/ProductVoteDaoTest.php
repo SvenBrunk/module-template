@@ -20,11 +20,13 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversClass(ProductVoteDao::class)]
 final class ProductVoteDaoTest extends IntegrationTestCase
 {
-    use DaoTestTrait;
+    private const TEST_USER_ID = '_testuser';
+    private const TEST_PRODUCT_ID = '_testproduct';
 
     #[Test]
     public function noVoteForNoRecord(): void
     {
+        /** @var ProductVoteDaoInterface $sut */
         $sut = $this->get(ProductVoteDaoInterface::class);
 
         $productVote = $sut->getProductVote('productId', 'userId');
@@ -32,93 +34,67 @@ final class ProductVoteDaoTest extends IntegrationTestCase
     }
 
     #[Test]
-    #[DataProvider('boolProvider')]
-    public function getUpVote(bool $value): void
+    #[DataProvider('isVoteUpProvider')]
+    public function setAndGetVoteGivesTheSameVote(bool $isVoteUp): void
     {
-        $isVoteUp = $value;
-        $this->executeInsertVoteQuery($isVoteUp);
-
+        /** @var ProductVoteDaoInterface $sut */
         $sut = $this->get(ProductVoteDaoInterface::class);
 
-        $vote = $sut->getProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
-        $this->assertEquals(new ProductVote(
-            self::TEST_PRODUCT_ID,
-            self::TEST_USER_ID,
-            $isVoteUp
-        ), $vote);
-    }
-
-    #[Test]
-    #[DataProvider('boolProvider')]
-    public function setVote(bool $value): void
-    {
-        $isUpVote = $value;
-        $vote = new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, $isUpVote);
-
-        $sut = $this->get(ProductVoteDaoInterface::class);
+        $vote = new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, $isVoteUp);
         $sut->setProductVote($vote);
 
-        $result = $this->getVoteQueryResult();
-        $this->assertEquals(1, $result->rowCount());
-        $this->assertEquals(
-            [
-                'oxartid' => self::TEST_PRODUCT_ID,
-                'oxuserid' => self::TEST_USER_ID,
-                'oxvote' => $isUpVote ? 1 : 0,
-            ],
-            $result->fetchAssociative()
-        );
+        $daoVote = $sut->getProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
+        $this->assertNotSame($vote, $daoVote);
+
+        $this->assertEquals(self::TEST_PRODUCT_ID, $daoVote->getProductId());
+        $this->assertEquals(self::TEST_USER_ID, $daoVote->getUserId());
+        $this->assertEquals($isVoteUp, $daoVote->isVoteUp());
     }
 
-    public static function boolProvider(): array
+    public static function isVoteUpProvider(): array
     {
         return [
-            ['value' => true],
-            ['value' => false],
+            ['isVoteUp' => true],
+            ['isVoteUp' => false],
         ];
     }
 
     #[Test]
-    public function replaceVote(): void
+    public function setVoteForTheSameUserAndProductReplacesVote(): void
     {
         $upVote = new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, true);
         $downVote = new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, false);
 
+        /** @var ProductVoteDaoInterface $sut */
         $sut = $this->get(ProductVoteDaoInterface::class);
         $sut->setProductVote($upVote);
         $sut->setProductVote($downVote);
 
-        $result = $this->getVoteQueryResult();
-        $this->assertEquals(1, $result->rowCount());
-        $this->assertEquals(
-            [
-                'oxartid' => self::TEST_PRODUCT_ID,
-                'oxuserid' => self::TEST_USER_ID,
-                'oxvote' => 0,
-            ],
-            $result->fetchAssociative()
-        );
+        $vote = $sut->getProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
+        $this->assertEquals($downVote, $vote);
     }
 
     #[Test]
-    public function resetNonExistingVote(): void
+    public function resetNonExistingVoteDoesNothing(): void
     {
+        /** @var ProductVoteDaoInterface $sut */
         $sut = $this->get(ProductVoteDaoInterface::class);
         $sut->resetProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
 
-        $result = $this->getVoteQueryResult();
-        $this->assertEquals(0, $result->rowCount());
+        $vote = $sut->getProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
+        $this->assertNull($vote);
     }
 
     #[Test]
-    public function resetVote(): void
+    public function resetVoteRemovesVote(): void
     {
-        $this->executeInsertVoteQuery(true);
-
+        /** @var ProductVoteDaoInterface $sut */
         $sut = $this->get(ProductVoteDaoInterface::class);
+        $sut->setProductVote(new ProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID, true));
+
         $sut->resetProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
 
-        $result = $this->getVoteQueryResult();
-        $this->assertEquals(0, $result->rowCount());
+        $vote = $sut->getProductVote(self::TEST_PRODUCT_ID, self::TEST_USER_ID);
+        $this->assertNull($vote);
     }
 }

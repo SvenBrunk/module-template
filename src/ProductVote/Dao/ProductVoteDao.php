@@ -12,8 +12,7 @@ namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 use Doctrine\DBAL\Result;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 use OxidEsales\ModuleTemplate\ProductVote\DataMapper\ProductVoteDataMapperInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
-use RuntimeException;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
 
 readonly class ProductVoteDao implements ProductVoteDaoInterface
 {
@@ -23,7 +22,7 @@ readonly class ProductVoteDao implements ProductVoteDaoInterface
     ) {
     }
 
-    public function getProductVote(string $productId, string $userId): ?ProductVote
+    public function getProductVote(string $productId, string $userId): ?ProductVoteInterface
     {
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder
@@ -40,22 +39,20 @@ readonly class ProductVoteDao implements ProductVoteDaoInterface
                 'userId' => $userId,
             ]);
 
+        /** @var Result $result */
         $result = $queryBuilder->execute();
-        if (!($result instanceof Result)) {
-            throw new RuntimeException('Query returned error.');
-        }
-
         $row = $result->fetchAssociative();
+
         if ($row === false) {
             return null;
         }
 
-        return $this->dataMapper->map($row);
+        return $this->dataMapper->mapFromDbRow($row);
     }
 
-    public function setProductVote(ProductVote $vote): void
+    public function setProductVote(ProductVoteInterface $vote): void
     {
-        $this->resetProductVote($vote->productId, $vote->userId);
+        $this->resetProductVote($vote->getProductId(), $vote->getUserId());
 
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder
@@ -68,9 +65,9 @@ readonly class ProductVoteDao implements ProductVoteDaoInterface
             ])
             ->setParameters([
                 'oxid' => uniqid(),
-                'productId' => $vote->productId,
-                'userId' => $vote->userId,
-                'vote' => (int)$vote->vote,
+                'productId' => $vote->getProductId(),
+                'userId' => $vote->getUserId(),
+                'vote' => (int)$vote->isVoteUp(),
             ])
             ->execute();
     }

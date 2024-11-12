@@ -10,8 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\ModuleTemplate\ProductVote\Controller;
 
 use OxidEsales\Eshop\Application\Model\User;
-use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDaoInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
+use OxidEsales\ModuleTemplate\ProductVote\Service\VoteServiceInterface;
 
 /**
  * @extendable-class
@@ -35,39 +34,23 @@ class ArticleDetailsController extends ArticleDetailsController_parent
 
     public function resetVote(): void
     {
-        $userId = $this->getUserId();
-        if (!$userId) {
+        $user = $this->getUser();
+        if (!($user instanceof User)) {
             return;
         }
 
-        $productVoteDao = $this->getProductVoteDao();
-        $productVoteDao->resetProductVote($this->getProduct()->getId(), $userId);
+        $voteService = $this->getService(VoteServiceInterface::class);
+        $voteService->resetProductVote($this->getProduct(), $user);
     }
 
     private function vote(bool $isUp): void
     {
-        $userId = $this->getUserId();
-        if (!$userId) {
+        $user = $this->getUser();
+        if (!($user instanceof User)) {
             return;
         }
 
-        $productVoteDao = $this->getProductVoteDao();
-        $vote = new ProductVote($this->getProduct()->getId(), $userId, $isUp);
-        $productVoteDao->setProductVote($vote);
-    }
-
-    private function getUserId(): ?string
-    {
-        $user = $this->getUser();
-        if (!($user instanceof User)) {
-            return null;
-        }
-
-        return $user->getId();
-    }
-
-    private function getProductVoteDao(): ProductVoteDaoInterface
-    {
-        return $this->getService(ProductVoteDaoInterface::class);
+        $voteService = $this->getService(VoteServiceInterface::class);
+        $voteService->setProductVote($this->getProduct(), $user, $isUp);
     }
 }

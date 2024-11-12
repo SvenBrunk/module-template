@@ -10,49 +10,66 @@ declare(strict_types=1);
 namespace OxidEsales\ModuleTemplate\Tests\Integration\ProductVote\Dao;
 
 use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
-use OxidEsales\ModuleTemplate\ProductVote\Dao\ResultDao;
-use OxidEsales\ModuleTemplate\ProductVote\Dao\ResultDaoInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\Result;
+use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDaoInterface;
+use OxidEsales\ModuleTemplate\ProductVote\Dao\VoteResultDao;
+use OxidEsales\ModuleTemplate\ProductVote\Dao\VoteResultDaoInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 
-#[CoversClass(ResultDao::class)]
+#[CoversClass(VoteResultDao::class)]
 final class ResultDaoTest extends IntegrationTestCase
 {
-    use DaoTestTrait;
+    private const TEST_PRODUCT_ID = '_testproduct';
 
     #[Test]
     public function calculateNoVotes(): void
     {
-        $sut = $this->get(ResultDaoInterface::class);
+        /** @var VoteResultDaoInterface $sut */
+        $sut = $this->get(VoteResultDaoInterface::class);
         $result = $sut->getProductVoteResult(self::TEST_PRODUCT_ID);
 
-        $this->assertEquals(new Result(self::TEST_PRODUCT_ID, 0, 0), $result);
+        $this->assertEquals(self::TEST_PRODUCT_ID, $result->getProductId());
+        $this->assertEquals(0, $result->getVoteUp());
+        $this->assertEquals(0, $result->getVoteDown());
     }
 
     #[Test]
-    public function calculateVoteResult(): void
+    public function calculateOneVoteResult(): void
     {
-        $this->executeInsertVoteQuery(true, 'user_1');
+        $this->addProductVote(true, 'user_1');
 
-        $sut = $this->get(ResultDaoInterface::class);
+        $sut = $this->get(VoteResultDaoInterface::class);
         $result = $sut->getProductVoteResult(self::TEST_PRODUCT_ID);
-        $this->assertEquals(new Result(self::TEST_PRODUCT_ID, 1, 0), $result);
+        $this->assertEquals(self::TEST_PRODUCT_ID, $result->getProductId());
+        $this->assertEquals(1, $result->getVoteUp());
+        $this->assertEquals(0, $result->getVoteDown());
     }
 
     #[Test]
-    public function calculateVotesResult(): void
+    public function calculateManyVotesResult(): void
     {
-        $this->executeInsertVoteQuery(true, 'user_1'); // 1/0
-        $this->executeInsertVoteQuery(false, 'user_2');// 1/1
-        $this->executeInsertVoteQuery(false, 'user_3');// 1/2
-        $this->executeInsertVoteQuery(false, 'user_4');// 1/3
-        $this->executeInsertVoteQuery(true, 'user_5'); // 2/3
-        $this->executeInsertVoteQuery(true, 'user_6'); // 3/3
-        $this->executeInsertVoteQuery(true, 'user_7'); // 4/3
+        $this->addProductVote(true, 'user_1'); // 1/0
+        $this->addProductVote(false, 'user_2');// 1/1
+        $this->addProductVote(false, 'user_3');// 1/2
+        $this->addProductVote(false, 'user_4');// 1/3
+        $this->addProductVote(true, 'user_5'); // 2/3
+        $this->addProductVote(true, 'user_6'); // 3/3
+        $this->addProductVote(true, 'user_7'); // 4/3
 
-        $sut = $this->get(ResultDaoInterface::class);
+        $sut = $this->get(VoteResultDaoInterface::class);
         $result = $sut->getProductVoteResult(self::TEST_PRODUCT_ID);
-        $this->assertEquals(new Result(self::TEST_PRODUCT_ID, 4, 3), $result);
+        $this->assertEquals(self::TEST_PRODUCT_ID, $result->getProductId());
+        $this->assertEquals(4, $result->getVoteUp());
+        $this->assertEquals(3, $result->getVoteDown());
+    }
+
+    private function addProductVote(bool $isVoteUp, string $userId): void
+    {
+        $vote = new ProductVote(self::TEST_PRODUCT_ID, $userId, $isVoteUp);
+
+        /** @var ProductVoteDaoInterface $productVoteDao */
+        $productVoteDao = $this->get(ProductVoteDaoInterface::class);
+        $productVoteDao->setProductVote($vote);
     }
 }

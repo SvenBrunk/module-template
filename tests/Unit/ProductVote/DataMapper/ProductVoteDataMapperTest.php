@@ -23,12 +23,12 @@ final class ProductVoteDataMapperTest extends TestCase
 {
     #[Test]
     #[DataProvider('mapMalformedDataProvider')]
-    public function mapMalformedData(array $data): void
+    public function mapMalformedDataThrowsException(array $data): void
     {
         $sut = new ProductVoteDataMapper();
 
         $this->expectException(MapDataTypeException::class);
-        $sut->map($data);
+        $sut->mapFromDbRow($data);
     }
 
     public static function mapMalformedDataProvider(): Generator
@@ -44,10 +44,10 @@ final class ProductVoteDataMapperTest extends TestCase
 
     #[Test]
     #[DataProvider('mapDataProvider')]
-    public function mapData(ProductVote $expectedVote, array $data): void
+    public function mapCorrectData(ProductVote $expectedVote, array $data): void
     {
         $sut = new ProductVoteDataMapper();
-        $this->assertEquals($expectedVote, $sut->map($data));
+        $this->assertEquals($expectedVote, $sut->mapFromDbRow($data));
     }
 
     public static function mapDataProvider(): Generator

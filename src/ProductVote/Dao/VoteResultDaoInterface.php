@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\Result;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
 
-interface ResultDaoInterface
+interface VoteResultDaoInterface
 {
-    public function getProductVoteResult(string $productId): array|Result;
+    public function getProductVoteResult(string $productId): VoteResultInterface;
 }

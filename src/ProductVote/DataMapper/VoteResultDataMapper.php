@@ -9,17 +9,18 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\DataMapper;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\Result;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResult;
+use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
 use OxidEsales\ModuleTemplate\ProductVote\Exception\MapDataTypeException;
 
-readonly class ResultDataMapper implements ResultDataMapperInterface
+readonly class VoteResultDataMapper implements VoteResultDataMapperInterface
 {
-    public function map(array $data): Result
+    public function mapFromDbRow(array $data): VoteResultInterface
     {
         if (!isset($data['ProductId']) || !isset($data['VoteUp']) || !isset($data['VoteDown'])) {
             throw new MapDataTypeException();
         }
 
-        return new Result($data['ProductId'], (int)$data['VoteUp'], (int)$data['VoteDown']);
+        return new VoteResult($data['ProductId'], (int)$data['VoteUp'], (int)$data['VoteDown']);
     }
 }
