@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [v3.1.0] - Unreleased
+## [v4.0.0-rc.1] - 2024-11-14
 
 ### Added
 - Admin controller example in Greeting namespace
@@ -115,3 +115,5 @@ This is the stable release for v3.0.0. No changes have been made since v3.0.0-rc
 
 ### Added
 - First version of our reusable examples
+
+[v4.0.0-rc.1]: https://github.com/OXID-eSales/module-template/compare/v3.0.0...v4.0.0-rc.1
