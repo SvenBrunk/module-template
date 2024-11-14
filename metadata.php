@@ -16,7 +16,7 @@ $sMetadataVersion = '2.1';
 $aModule = [
     'id'          => 'oe_moduletemplate',
     'title'       => 'OxidEsales Module Template (OEMT)',
-    'description' =>  '',
+    'description' => 'Reusable module template with examples for the most common use cases',
     'thumbnail'   => 'pictures/logo.png',
     'version'     => '3.0.0',
     'author'      => 'OXID eSales AG',
@@ -24,11 +24,13 @@ $aModule = [
     'email'       => '',
     'extend'      => [
         \OxidEsales\Eshop\Application\Controller\StartController::class => \OxidEsales\ModuleTemplate\Extension\Controller\StartController::class,
+        \OxidEsales\Eshop\Application\Controller\ArticleDetailsController::class => \OxidEsales\ModuleTemplate\ProductVote\Controller\ArticleDetailsController::class,
+        \OxidEsales\Eshop\Application\Component\Widget\ArticleDetails::class => \OxidEsales\ModuleTemplate\ProductVote\Widget\ArticleDetails::class,
         \OxidEsales\Eshop\Application\Model\Basket::class => \OxidEsales\ModuleTemplate\Extension\Model\Basket::class,
         \OxidEsales\Eshop\Application\Model\User::class => \OxidEsales\ModuleTemplate\Extension\Model\User::class,
     ],
     'controllers' => [
-        'oemtgreeting' => \OxidEsales\ModuleTemplate\Greeting\Controller\GreetingController::class,
+        'oemt_greeting' => \OxidEsales\ModuleTemplate\Greeting\Controller\GreetingController::class,
         'oemt_admin_greeting' => \OxidEsales\ModuleTemplate\Greeting\Controller\Admin\GreetingAdminController::class,
     ],
     'events' => [

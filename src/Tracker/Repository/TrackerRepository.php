@@ -17,20 +17,12 @@ use OxidEsales\ModuleTemplate\Tracker\Model\TrackerModel;
 /**
  * @extendable-class
  */
-class TrackerRepository implements TrackerRepositoryInterface
+readonly class TrackerRepository implements TrackerRepositoryInterface
 {
-    /** @var QueryBuilderFactoryInterface */
-    private $queryBuilderFactory;
-
-    /** @var ContextInterface */
-    private $context;
-
     public function __construct(
-        QueryBuilderFactoryInterface $queryBuilderFactory,
-        ContextInterface $context,
+        private QueryBuilderFactoryInterface $queryBuilderFactory,
+        private ContextInterface $context,
     ) {
-        $this->queryBuilderFactory = $queryBuilderFactory;
-        $this->context = $context;
     }
 
     public function getTrackerByUserId(string $userId): TrackerModel
@@ -44,12 +36,10 @@ class TrackerRepository implements TrackerRepositoryInterface
 
         //if it cannot be loaded from database, create a new object
         if (!$tracker->isLoaded()) {
-            $tracker->assign(
-                [
-                    'oxuserid' => $userId,
-                    'oxshopid' => $this->context->getCurrentShopId(),
-                ]
-            );
+            $tracker->assign([
+                'oxuserid' => $userId,
+                'oxshopid' => $this->context->getCurrentShopId(),
+            ]);
         }
 
         return $tracker;
@@ -57,7 +47,6 @@ class TrackerRepository implements TrackerRepositoryInterface
 
     private function getGreetingTrackerId(string $userId): string
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->queryBuilderFactory->create();
 
         $parameters = [

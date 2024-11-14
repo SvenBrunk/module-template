@@ -16,6 +16,17 @@ like OXID suggests it could be implemented.
 
 This module also comes with all the quality tools OXID recommends to use.
 
+## Table of contents
+1. [Branch compatibility](#branch-compatibility)
+2. [The Idea](#the-idea)
+3. [Goals](#goals)
+4. [Examples](#examples)
+5. [Install and try it out](#install-and-try-it-out)
+6. [Use as a base for own module](#use-as-a-base-for-own-module)
+7. [Things to be aware of](#things-to-be-aware-of)
+8. [Running tests and quality tools](#running-tests-and-quality-tools)
+9. [Additional info](#additional-info)
+
 ## Branch compatibility
 
 * b-7.2.x branch - compatible with OXID eShop compilation 7.2.x and the respective branch
@@ -75,6 +86,7 @@ The repository contains examples of following cases and more:
 * Accessing the database
   * model with a database (`OxidEsales\ModuleTemplate\Tracker\Model\GreetingTracker`)
   * ``oxNew`` object factory example (`OxidEsales\ModuleTemplate\Greeting\Infrastructure\UserModelFactory`)
+  * [DAO](src/ProductVote/Dao)
 
 * [Various types of module settings](https://github.com/OXID-eSales/module-template/blob/b-7.2.x/metadata.php#L38)
 
@@ -378,7 +390,9 @@ few test cases to the module and plan to improve the shop tests as soon as possi
 And then there are some few shop tests marked as `@group quarantine` in the doc block. Test in that group have stability issues so they'd better
 be excluded as well.
 
-Ps: a failing shop test might also turn up issues in your module, in that case fix the module and let the test live ;) 
+Ps: a failing shop test might also turn up issues in your module, in that case fix the module and let the test live ;)
+
+## Additional info
 
 ### Useful links
 
