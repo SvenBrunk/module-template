@@ -34,7 +34,7 @@ class ReadLogsCommand extends Command
             ->setHelp(self::COMMAND_HELP);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    /** @SuppressWarnings("PHPMD.UnusedFormalParameter") */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (is_file($this->logFilePath)) {

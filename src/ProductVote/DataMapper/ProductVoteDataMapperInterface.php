@@ -13,5 +13,8 @@ use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
 
 interface ProductVoteDataMapperInterface
 {
+    /**
+     * @param array<string,string> $data
+     */
     public function mapFromDbRow(array $data): ProductVoteInterface;
 }

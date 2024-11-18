@@ -17,8 +17,6 @@ use OxidEsales\ModuleTemplate\ProductVote\Service\VoteServiceInterface;
  *
  * This is a brand new (module own) controller which extends from the
  * shop frontend controller class.
- *
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class ArticleDetailsController extends ArticleDetailsController_parent
 {
@@ -34,6 +32,7 @@ class ArticleDetailsController extends ArticleDetailsController_parent
 
     public function resetVote(): void
     {
+        /** @var User|null $user */
         $user = $this->getUser();
         if (!($user instanceof User)) {
             return;
@@ -45,6 +44,7 @@ class ArticleDetailsController extends ArticleDetailsController_parent
 
     private function vote(bool $isUp): void
     {
+        /** @var User|null $user */
         $user = $this->getUser();
         if (!($user instanceof User)) {
             return;

@@ -22,8 +22,6 @@ use OxidEsales\ModuleTemplate\Tracker\Repository\TrackerRepositoryInterface;
  *
  * This is a brand new (module own) controller which extends from the
  * shop frontend controller class.
- *
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class GreetingController extends FrontendController
 {
@@ -31,6 +29,7 @@ class GreetingController extends FrontendController
      * Current view template
      *
      * @var string
+     * @SuppressWarnings("PHPMD.CamelCasePropertyName")
      */
     protected $_sThisTemplate = '@oe_moduletemplate/templates/greetingtemplate';
 

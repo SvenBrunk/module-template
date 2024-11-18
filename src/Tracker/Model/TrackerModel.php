@@ -16,7 +16,7 @@ use OxidEsales\Eshop\Core\Model\BaseModel;
  * This is no shop extension.
  * This is a model class based on shop's BaseModel.
  *
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
+ * @SuppressWarnings("PHPMD.CamelCasePropertyName")
  */
 class TrackerModel extends BaseModel
 {
