@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResultInterface;
 
 interface VoteResultDaoInterface
 {

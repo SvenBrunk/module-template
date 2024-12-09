@@ -7,11 +7,11 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\ModuleTemplate\ProductVote\DataType;
+namespace OxidEsales\ModuleTemplate\ProductVote\DataObject;
 
-interface VoteResultInterface
+interface ProductVoteInterface
 {
     public function getProductId(): string;
-    public function getVoteUp(): int;
-    public function getVoteDown(): int;
+    public function getUserId(): string;
+    public function isVoteUp(): bool;
 }

@@ -12,7 +12,7 @@ namespace OxidEsales\ModuleTemplate\Tests\Integration\ProductVote\Dao;
 use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDao;
 use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDaoInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVote;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;

@@ -11,8 +11,8 @@ namespace OxidEsales\ModuleTemplate\ProductVote\Service;
 
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\User;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVoteInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResultInterface;
 
 interface VoteServiceInterface
 {

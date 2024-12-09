@@ -11,7 +11,7 @@ namespace OxidEsales\ModuleTemplate\Tests\Unit\ProductVote\DataMapper;
 
 use Generator;
 use OxidEsales\ModuleTemplate\ProductVote\DataMapper\ProductVoteDataMapper;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVote;
 use OxidEsales\ModuleTemplate\ProductVote\Exception\MapDataTypeException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;

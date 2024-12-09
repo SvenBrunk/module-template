@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\ModuleTemplate\ProductVote\DataType;
+namespace OxidEsales\ModuleTemplate\ProductVote\DataObject;
 
 readonly class VoteResult implements VoteResultInterface
 {

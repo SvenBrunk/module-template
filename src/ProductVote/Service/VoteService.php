@@ -13,9 +13,9 @@ use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\User;
 use OxidEsales\ModuleTemplate\ProductVote\Dao\ProductVoteDaoInterface;
 use OxidEsales\ModuleTemplate\ProductVote\Dao\VoteResultDaoInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVote;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVote;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVoteInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResultInterface;
 
 readonly class VoteService implements VoteServiceInterface
 {

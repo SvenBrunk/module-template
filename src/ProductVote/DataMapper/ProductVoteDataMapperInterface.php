@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\DataMapper;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVoteInterface;
 
 interface ProductVoteDataMapperInterface
 {

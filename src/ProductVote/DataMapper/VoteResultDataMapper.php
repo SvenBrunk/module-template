@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OxidEsales\ModuleTemplate\ProductVote\DataMapper;
 
-use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResult;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResult;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResultInterface;
 use OxidEsales\ModuleTemplate\ProductVote\Exception\MapDataTypeException;
 
 readonly class VoteResultDataMapper implements VoteResultDataMapperInterface

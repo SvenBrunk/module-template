@@ -11,8 +11,8 @@ namespace OxidEsales\ModuleTemplate\Tests\Integration\ProductVote\Widget;
 
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Application\Model\User;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\VoteResultInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVoteInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResultInterface;
 use OxidEsales\ModuleTemplate\ProductVote\Service\VoteServiceInterface;
 use OxidEsales\ModuleTemplate\ProductVote\Widget\ArticleDetails;
 use PHPUnit\Framework\Attributes\CoversClass;

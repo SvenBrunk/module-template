@@ -12,7 +12,7 @@ namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 use Doctrine\DBAL\Result;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 use OxidEsales\ModuleTemplate\ProductVote\DataMapper\ProductVoteDataMapperInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataType\ProductVoteInterface;
+use OxidEsales\ModuleTemplate\ProductVote\DataObject\ProductVoteInterface;
 
 readonly class ProductVoteDao implements ProductVoteDaoInterface
 {
