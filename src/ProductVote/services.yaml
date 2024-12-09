@@ -9,12 +9,6 @@ services:
   OxidEsales\ModuleTemplate\ProductVote\Dao\VoteResultDaoInterface:
     class: OxidEsales\ModuleTemplate\ProductVote\Dao\VoteResultDao
 
-  OxidEsales\ModuleTemplate\ProductVote\DataMapper\ProductVoteDataMapperInterface:
-    class: OxidEsales\ModuleTemplate\ProductVote\DataMapper\ProductVoteDataMapper
-
-  OxidEsales\ModuleTemplate\ProductVote\DataMapper\VoteResultDataMapperInterface:
-    class: OxidEsales\ModuleTemplate\ProductVote\DataMapper\VoteResultDataMapper
-
   OxidEsales\ModuleTemplate\ProductVote\Service\VoteServiceInterface:
     class: OxidEsales\ModuleTemplate\ProductVote\Service\VoteService
     public: true

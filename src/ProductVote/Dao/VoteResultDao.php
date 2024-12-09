@@ -11,7 +11,6 @@ namespace OxidEsales\ModuleTemplate\ProductVote\Dao;
 
 use Doctrine\DBAL\Result;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
-use OxidEsales\ModuleTemplate\ProductVote\DataMapper\VoteResultDataMapperInterface;
 use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResult;
 use OxidEsales\ModuleTemplate\ProductVote\DataObject\VoteResultInterface;
 
@@ -19,7 +18,6 @@ readonly class VoteResultDao implements VoteResultDaoInterface
 {
     public function __construct(
         private QueryBuilderFactoryInterface $queryBuilderFactory,
-        private VoteResultDataMapperInterface $dataMapper,
     ) {
     }
 
@@ -46,6 +44,6 @@ readonly class VoteResultDao implements VoteResultDaoInterface
         if (!$row) {
             return new VoteResult($productId, 0, 0);
         }
-        return $this->dataMapper->mapFromDbRow($row);
+        return new VoteResult($row['ProductId'], (int)$row['VoteUp'], (int)$row['VoteDown']);
     }
 }
