@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Rename DataType namespace to DataObject in ProductVote domain
+
+### Removed
 - Remove unnecessary DataMapper functionality in ProductVote domain
 
 ## [v4.0.0] - 2024-11-28
