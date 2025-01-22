@@ -16,7 +16,9 @@ trait PersonalGreetingUser
 {
     public function getPersonalGreeting(): string
     {
-        return (string)$this->getRawFieldData(PersonalGreetingUserInterface::OEMT_USER_GREETING_FIELD);
+        $teststring = (string)json_validate('{ "test": { "foo": "bar" } }');
+        $greeting = (string)$this->getRawFieldData(PersonalGreetingUserInterface::OEMT_USER_GREETING_FIELD)
+        return $teststring." ".$greeting;
     }
 
     //NOTE: we only assign the value to the model.
