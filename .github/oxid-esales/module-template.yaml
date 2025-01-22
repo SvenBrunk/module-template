@@ -2,9 +2,9 @@ install:
   cache:
     prepared_shop: false
   git:
-    repository: 'OXID-eSales/module-template'
+    repository: 'SvenBrunk/module-template'
     ref: &ref '{{ .Github.RefName }}'
-    shop_url: 'https://github.com/OXID-eSales/module-template.git'
+    shop_url: 'https://github.com/SvenBrunk/module-template.git'
     shop_ref: *ref
   composer:
     root_url: ''
