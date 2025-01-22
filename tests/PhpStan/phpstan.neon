@@ -1,7 +1,7 @@
 parameters:
-	phpVersion:
-		min: 80131 # PHP 8.1.31
-		max: 80403 # PHP 8.4.3
+    phpVersion:
+        min: 80131 # PHP 8.1.31
+        max: 80403 # PHP 8.4.3
     bootstrapFiles:
         - phpstan-bootstrap.php
     stubFiles:
