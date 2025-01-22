@@ -17,7 +17,7 @@ trait PersonalGreetingUser
     public function getPersonalGreeting(): string
     {
         $teststring = (string)json_validate('{ "test": { "foo": "bar" } }');
-        $greeting = (string)$this->getRawFieldData(PersonalGreetingUserInterface::OEMT_USER_GREETING_FIELD)
+        $greeting = (string)$this->getRawFieldData(PersonalGreetingUserInterface::OEMT_USER_GREETING_FIELD);
         return $teststring." ".$greeting;
     }
 
